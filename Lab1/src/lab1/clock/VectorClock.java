@@ -1,6 +1,10 @@
 package lab1.clock;
 
-public class VectorClock {
+import java.io.Serializable;
+
+
+@SuppressWarnings("serial")
+public class VectorClock implements Serializable{
 
 	int[] Vector;
 	
