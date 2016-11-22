@@ -50,4 +50,6 @@ public interface SESInterf extends Remote{
 	//S: clock_buffer sent with the latest message.
 	void deliver_buffer(Map<Integer, VectorClock> S) throws RemoteException;
 	
+	ArrayList<String> getReceivedMessages() throws RemoteException;
+	
 }

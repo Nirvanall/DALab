@@ -15,11 +15,21 @@ public class InterfImp extends UnicastRemoteObject implements SESInterf{
 	{
 		id = process_id;
 		process_num = process_number;
+		clock_buffer = new HashMap<Integer, VectorClock>();
+		message_buffer = new HashMap<VectorClock, String>();
+		vector_clock = new VectorClock(process_number);
+		receivedMessages = new ArrayList<String>();
+	}
+	
+	private ArrayList<String> receivedMessages;
+	public ArrayList<String> getReceivedMessages()
+	{
+		return receivedMessages;
 	}
 	
 	private VectorClock vector_clock;
-	Map<Integer, VectorClock> clock_buffer;
-	Map<VectorClock, String> message_buffer;
+	HashMap<Integer, VectorClock> clock_buffer;
+	HashMap<VectorClock, String> message_buffer;
 	
 	
 	//Send a message m together with local clock_buffer and local vector_clock
@@ -90,6 +100,7 @@ public class InterfImp extends UnicastRemoteObject implements SESInterf{
 		{
 			System.out.println("Reveiving message: " + m);
 			
+			receivedMessages.add(m);
 			//Merge local buffer and buffer coming along with message.
 			for (int i: S.keySet())
 			{
