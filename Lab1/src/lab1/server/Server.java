@@ -2,7 +2,7 @@ package lab1.server;
 
 import java.rmi.Naming;   
 import java.rmi.registry.LocateRegistry; 
-import lab1.interf.*;
+//import lab1.interf.*;
 
 public class Server {
 
@@ -11,7 +11,7 @@ public class Server {
 		try
 		{
 			LocateRegistry.createRegistry(1099);
-			InterfImp ses = new InterfImp();
+			InterfImp ses = new InterfImp(1,3);
 		
 			Naming.bind("rmi://localhost:1099/01", ses);
 		

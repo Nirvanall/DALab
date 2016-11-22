@@ -17,6 +17,12 @@ public class VectorClock {
 			Vector[i] = 0;	
 	}
 	
+	public void update_vector(int index, int clock)
+	{
+		Vector[index] = clock;
+
+	} 
+	
 	public void increment_clock(int process_index){
 		Vector[process_index] = Vector[process_index] + 1;
 	}

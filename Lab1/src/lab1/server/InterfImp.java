@@ -21,6 +21,9 @@ public class InterfImp extends UnicastRemoteObject implements SESInterf{
 	Map<Integer, VectorClock> clock_buffer;
 	Map<VectorClock, String> message_buffer;
 	
+	
+	//Send a message m together with local clock_buffer and local vector_clock
+	//to process destination_id with a certain delay (on test purpose).
 	public void send(String m, int destination_id, int delay) 
 	{
 		vector_clock.increment_clock(id); //Increment own clock
@@ -36,6 +39,7 @@ public class InterfImp extends UnicastRemoteObject implements SESInterf{
 		} catch (Exception e) {System.out.println(e);}
 		
 	}
+	
 	
 	//Only check if the input message contains a delay.
 	//If so, implement the delay, then proceed to receive.
@@ -54,25 +58,79 @@ public class InterfImp extends UnicastRemoteObject implements SESInterf{
 		} catch (Exception e) {System.out.println(e);}
 	}
 	
+	
+	//Check if the incoming message is in the proper order.
+	//If so, deliver it. Then deliver message in the buffer if any that is suitable for delivery.
+	//If not, put it into buffer awaiting further delivery.
 	public void pre_delivery_check(String m, Map<Integer, VectorClock> S, VectorClock V)
 	{
 		try
 		{
 			if (!S.containsKey(id))
-				deliver(m, S, V);
-			else if (S.get(id) != null && vector_clock_check)
-				deliver(m, S, V);
+				{
+					deliver(m, S, V);
+					deliver_buffer(S);
+				}
+			else if ( S.get(id) != null && vector_clock.isuptodate(S.get(id)) )
+				{
+					deliver(m, S, V);
+					deliver_buffer(S);
+				}
 			else message_buffer.put(V, m);
 			
 		}catch (Exception e) {System.out.println(e);}
 	}
 	
-	//Check the incoming clock buffer S in order to determine whether deliver or not.
-	public boolean vector_clock_check(Map<Integer, VectorClock> S)
+	
+	//Deliver the massage.
+	//Update clock_buffer and vector_clock.
+	public void deliver(String m, Map<Integer, VectorClock> S, VectorClock V)
 	{
-		if ( .isuptodate(S) )
+		try
 		{
+			System.out.println("Reveiving message: " + m);
 			
+			//Merge local buffer and buffer coming along with message.
+			for (int i: S.keySet())
+			{
+				if ( clock_buffer.containsKey(i) )
+				{
+					VectorClock temp_clock = new VectorClock(process_num);
+					for (int j=0; j<process_num; j++)
+					{
+						temp_clock.update_vector( j, Math.max(clock_buffer.get(i).get_clock(j), S.get(i).get_clock(j)) );
+					}
+					clock_buffer.put(i, temp_clock);
+				}
+				else clock_buffer.put(i, S.get(i));
+			}
+			
+			//Update knowledge about other processes' time-stamps in local vector_clock
+			for (int j=0; j<process_num; j++)
+			{
+				vector_clock.update_vector( j, Math.max(V.get_clock(j), vector_clock.get_clock(j)) );
+			}
+			
+			vector_clock.increment_clock(id);
+		} catch (Exception e) {System.out.println(e);}
+	}
+	
+	
+	//Find message that is suitable for delivery in the message_buffer.
+	//Deliver any result that is found, then delete it from buffer.
+	public void deliver_buffer(Map<Integer, VectorClock> S)
+	{
+		if (!message_buffer.isEmpty())
+		{
+			for (VectorClock temp : message_buffer.keySet())
+			{
+				if ( vector_clock.isuptodate(S.get(id)) )
+				{
+					deliver(message_buffer.get(temp), S, temp);
+					message_buffer.remove(temp);
+				}
+			}
+				
 		}
 	}
 }
