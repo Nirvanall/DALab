@@ -1,6 +1,5 @@
 package lab1.server;
 
-import lab1.interf.*;
 import java.rmi.registry.Registry;
 /**
  * This is the server side of our system
@@ -24,12 +23,12 @@ public class Server {
 			java.rmi.Naming.bind("rmi://localhost:1099/1", process1);
 			java.rmi.Naming.bind("rmi://localhost:1099/2", process2);
 			
-			process0.send("m1", 1, 5000);
-			System.out.println("Process0 sent first message to P1 with 5000 delay");
+			process0.send("m1", 1, 2000);
+			System.out.println("@(Process 0)---- sent first message to P1 with 2000 delay");
 			process0.send("m2", 2, 0);
-			System.out.println("Process0 sent second message to P2 without delay");
+			System.out.println("@(Process 0)---- sent second message to P2 without delay");
 			process2.send("m3", 1, 0);
-			System.out.println("Process2 sent third message  to P1 without delay");
+			System.out.println("@(Process 2)---- sent third message  to P1 without delay");
 					
 		} catch (Exception e){
 			e.printStackTrace();
@@ -40,7 +39,7 @@ public class Server {
 	public static void main(String[] args){
 		Server s = new Server();
 		s.startServer();
-		System.out.println("RMI SES server started and provide service now...");
+		System.out.println("@Server----RMI SES server started and provide service now...");
 		
 	}
 
