@@ -79,7 +79,7 @@ public class Client {
 			process0 = new InterfImp(0,2);
 			process1 = new InterfImp(1,2);
 			
-			java.rmi.Naming.rebind("rim://localhost:1099/0", process0);
+			java.rmi.Naming.rebind("rmi://localhost:1099/0", process0);
 			java.rmi.Naming.rebind("rmi://localhost:1099/1", process1);
 
 			System.out.println("Reordering Test started");
