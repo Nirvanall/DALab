@@ -104,6 +104,7 @@ public class Client {
 	}
 	
 	/*Scenario 3:
+	 * This is the example in the lecture slides
 	 * P0 sends m1 to P1
 	 * P0 sends m2 to P2
 	 * P2 sends m3 to P1
@@ -154,13 +155,14 @@ public class Client {
 	}
 
 		/* Scenario 4:
+		 * This is the exercise mentioned in lecture
 		 * P0 sends n1 to P3
 		 * P0 sends m1 to P1
 		 * P1 sends n2 to P3
 		 * P1 sends m2 to P2
 		 * P2 sends m3 to P3
-		 * n2 arrives at P2 before sending m3
-		 * At P3, m3 arrives first, then m2, and finally m1
+		 * m2 arrives at P2 before sending m3
+		 * At P3, m3 arrives first, then n2, and finally n1
 		 * 
 		 */
 		@Test
