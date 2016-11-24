@@ -11,7 +11,7 @@ public interface SESInterf extends Remote{
 	//Parameters
 	//m: message to be sent;
 	//destination_id: the index of the process where the message is sent to;
-	//delay: time of delay in seconds.
+	//delay: time of delay in milliseconds.
 	void send(String m, int destination_id, int delay) throws RemoteException;
 	
 	
@@ -21,8 +21,8 @@ public interface SESInterf extends Remote{
 	//m: message the has been received;
 	//S: clock_buffer sent with the message;
 	//V: vector_clock sent with the message;
-	//delay: time of delay in seconds.
-	void delay_check(String m, Map<Integer, VectorClock> S, VectorClock V, int delay) throws RemoteException;
+	//delay: time of delay in milliseconds.
+	void delay_check(String m, HashMap<Integer, VectorClock> S, VectorClock V, int delay) throws RemoteException;
 
 	
 	//Check if the incoming message is in the proper order.
@@ -32,7 +32,7 @@ public interface SESInterf extends Remote{
 	//m: message the has been received;
 	//S: clock_buffer sent with the message;
 	//V: vector_clock sent with the message.
-	void pre_delivery_check(String m, Map<Integer, VectorClock> S, VectorClock V) throws RemoteException;
+	void pre_delivery_check(String m, HashMap<Integer, VectorClock> S, VectorClock V) throws RemoteException;
 	
 	
 	//Deliver the massage.
@@ -41,15 +41,23 @@ public interface SESInterf extends Remote{
 	//m: message the has been received;
 	//S: clock_buffer sent with the message;
 	//V: vector_clock sent with the message.
-	void deliver(String m, Map<Integer, VectorClock> S, VectorClock V) throws RemoteException;
+	void deliver(String m, HashMap<Integer, VectorClock> S, VectorClock V) throws RemoteException;
 	
 	
 	//Find message that is suitable for delivery in the message_buffer.
 	//Deliver any result that is found, then delete it from buffer.
 	//Parameters
 	//S: clock_buffer sent with the latest message.
-	void deliver_buffer(Map<Integer, VectorClock> S) throws RemoteException;
+	void deliver_buffer() throws RemoteException;
 	
+	
+	//Retrieve messages that has been delivered.
 	ArrayList<String> getReceivedMessages() throws RemoteException;
+	
+	
+	//Checking criteria of delivery according to protocol.
+	//Parameters
+	//S: clock_buffer coming along with the message that is going to be checked.
+	boolean deliverable(HashMap<Integer, VectorClock> S) throws RemoteException;
 	
 }
