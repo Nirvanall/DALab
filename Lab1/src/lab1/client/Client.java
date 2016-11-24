@@ -104,6 +104,7 @@ public class Client {
 	}
 	
 	/*Scenario 3:
+	 * This is the example in the lecture slides
 	 * P0 sends m1 to P1
 	 * P0 sends m2 to P2
 	 * P2 sends m3 to P1
@@ -154,13 +155,14 @@ public class Client {
 	}
 
 		/* Scenario 4:
-		 * P0 sends m1 to P3
-		 * P0 sends n1 to P1
-		 * P1 sends m2 to P3
-		 * P1 sends n2 to P2
+		 * This is the exercise mentioned in lecture
+		 * P0 sends n1 to P3
+		 * P0 sends m1 to P1
+		 * P1 sends n2 to P3
+		 * P1 sends m2 to P2
 		 * P2 sends m3 to P3
-		 * n2 arrives at P2 before sending m3
-		 * At P3, m3 arrives first, then m2, and finally m1
+		 * m2 arrives at P2 before sending m3
+		 * At P3, m3 arrives first, then n2, and finally n1
 		 * 
 		 */
 		@Test
@@ -185,10 +187,10 @@ public class Client {
 
 				System.out.println("Four Processes Test started");
 				
-				process0.send("m1", 3, 1000); // sends m1 to P3 with 1000 delay
-				process0.send("n1", 1, 0);
-				process1.send("m2", 3, 500); // sends m2 to P3 with 500 delay
-				process1.send("n2", 2, 0);
+				process0.send("n1", 3, 1000); // sends m1 to P3 with 1000 delay
+				process0.send("m1", 1, 0);
+				process1.send("n2", 3, 500); // sends m2 to P3 with 500 delay
+				process1.send("m2", 2, 0);
 				Thread.sleep(1000); //ensure n2 arrives at p2 before sending m3
 				process2.send("m3", 3, 0); // sends m3 to P3 without delay
 							
@@ -202,12 +204,12 @@ public class Client {
 				
 				ArrayList<String> expected0 = new ArrayList<String>();
 				ArrayList<String> expected1 = new ArrayList<String>();
-				expected1.add("n1");
+				expected1.add("m1");
 				ArrayList<String> expected2 = new ArrayList<String>();
-				expected2.add("n1");
+				expected2.add("m2");
 				ArrayList<String> expected3 = new ArrayList<String>();
-				expected3.add("m1");
-				expected3.add("m2");
+				expected3.add("n1");
+				expected3.add("n2");
 				expected3.add("m3");
 				
 				assertEquals("Messages at P0 are wrong", expected0,messages0);
