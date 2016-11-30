@@ -15,21 +15,6 @@ public class Token {
 		}
 		
 	}
-	
-	public int getReqNum(int proc){
-		return reqNums[proc];
-	}
-	
-	public void setReqNum(int reqNum, int proc){
-		this.reqNums[proc] = reqNum;
-	}
-	
-	public int getState(int proc){
-		return states[proc];
-	}
-	
-	public void setState(int state, int proc){
-		this.states[proc] = state;
-	}
+
 
 }
