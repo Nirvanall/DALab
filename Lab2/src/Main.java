@@ -14,8 +14,7 @@ public class Main {
 			Registry registry = java.rmi.registry.LocateRegistry.createRegistry(1099);
 			
 			for(int i = 0; i < numComp; i++){
-				ComponentImp c = new ComponentImp(registry, i, numComp);
-				registry.bind(Integer.toString(i), c);
+				registry.bind(Integer.toString(i), new ComponentImp(registry, i, numComp));
 				new Thread((ComponentImp)(registry.lookup(Integer.toString(i)))).start();
 			}
 			
