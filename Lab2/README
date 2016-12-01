@@ -1,1 +1,18 @@
-Some description of lab2
+
+This project is to implement Singhal’s algorithm for token-based mutual exclusion in a distributed system with Java/RMI.
+
+There are five classes in our project, which are States, Token, Component, ComponentImp, Main.
+
+For States class, it contains all the possible states of every component, which are Requesting, Executing, Holding,and Other.
+
+For Token class, it is a token that contains requeset number and states of every component, and the request number as well as states will change when program runs. 
+
+For Component, it is a interface that contains all the methods of ComponentImp.
+
+For ComponentImp, it is the core of our project.
+It contains the method for sending request, receiving request, sending token, and receiving token.
+
+In Main, a network of six Component objects are created with their thread on a single host.
+
+When program runs, the six processes will send requests to every other process to ask for a token in random time. 
+And the only token will be sent around according to Singhal’s algorithm.
