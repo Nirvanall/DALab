@@ -1,1 +1,3 @@
-Some description of lab1
+
+This project is to implement the Schiper-Eggli-Sandoz algorithm for causal ordering of point-to-point messages with Java/RMI.
+
