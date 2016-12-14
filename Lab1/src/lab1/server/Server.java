@@ -23,12 +23,6 @@ public class Server {
 			java.rmi.Naming.bind("rmi://localhost:1099/1", process1);
 			java.rmi.Naming.bind("rmi://localhost:1099/2", process2);
 			
-			process0.send("m1", 1, 2000);
-			System.out.println("@(Process 0)---- sent first message to P1 with 2000 delay");
-			process0.send("m2", 2, 0);
-			System.out.println("@(Process 0)---- sent second message to P2 without delay");
-			process2.send("m3", 1, 0);
-			System.out.println("@(Process 2)---- sent third message  to P1 without delay");
 					
 		} catch (Exception e){
 			e.printStackTrace();
